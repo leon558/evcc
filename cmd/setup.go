@@ -632,6 +632,28 @@ func configureMqtt(conf *globalconfig.Mqtt) error {
 	return nil
 }
 
+func configureEos(conf *globalconfig.Eos) error {
+
+	if settings.Exists(keys.Eos) {
+		if err := settings.Json(keys.Eos, &conf); err != nil {
+			return err
+		}
+	}
+
+	if conf.URL == "" {
+		return nil
+	}
+
+	eos, err := server.NewEosClient(conf.URL, conf.Consumption)
+	if err != nil {
+		return fmt.Errorf("failed configuring eos: %w", err)
+	}
+
+	go eos.Run()
+
+	return nil
+}
+
 // setup javascript
 func configureJavascript(conf []globalconfig.Javascript) error {
 	for _, cc := range conf {

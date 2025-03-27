@@ -16,4 +16,5 @@ const (
 	Version            = "version"
 	Fatal              = "fatal"
 	Startup            = "startup"
+	Eos                = "eos"
 )

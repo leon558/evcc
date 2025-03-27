@@ -7,11 +7,11 @@ import (
 	"strings"
 )
 
-const _ClassName = "configfilemeterchargervehicletariffcircuitsitemqttdatabasemodbusproxyeebusjavascriptgohemsinfluxmessengersponsorshiploadpoint"
+const _ClassName = "configfilemeterchargervehicletariffcircuitsitemqttdatabasemodbusproxyeebusjavascriptgohemsinfluxmessengersponsorshiploadpointeos"
 
-var _ClassIndex = [...]uint8{0, 10, 15, 22, 29, 35, 42, 46, 50, 58, 69, 74, 84, 86, 90, 96, 105, 116, 125}
+var _ClassIndex = [...]uint8{0, 10, 15, 22, 29, 35, 42, 46, 50, 58, 69, 74, 84, 86, 90, 96, 105, 116, 125, 128}
 
-const _ClassLowerName = "configfilemeterchargervehicletariffcircuitsitemqttdatabasemodbusproxyeebusjavascriptgohemsinfluxmessengersponsorshiploadpoint"
+const _ClassLowerName = "configfilemeterchargervehicletariffcircuitsitemqttdatabasemodbusproxyeebusjavascriptgohemsinfluxmessengersponsorshiploadpointeos"
 
 func (i Class) String() string {
 	i -= 1
@@ -43,9 +43,10 @@ func _ClassNoOp() {
 	_ = x[ClassMessenger-(16)]
 	_ = x[ClassSponsorship-(17)]
 	_ = x[ClassLoadpoint-(18)]
+	_ = x[ClassEOS-(19)]
 }
 
-var _ClassValues = []Class{ClassConfigFile, ClassMeter, ClassCharger, ClassVehicle, ClassTariff, ClassCircuit, ClassSite, ClassMqtt, ClassDatabase, ClassModbusProxy, ClassEEBus, ClassJavascript, ClassGo, ClassHEMS, ClassInflux, ClassMessenger, ClassSponsorship, ClassLoadpoint}
+var _ClassValues = []Class{ClassConfigFile, ClassMeter, ClassCharger, ClassVehicle, ClassTariff, ClassCircuit, ClassSite, ClassMqtt, ClassDatabase, ClassModbusProxy, ClassEEBus, ClassJavascript, ClassGo, ClassHEMS, ClassInflux, ClassMessenger, ClassSponsorship, ClassLoadpoint, ClassEOS}
 
 var _ClassNameToValueMap = map[string]Class{
 	_ClassName[0:10]:         ClassConfigFile,
@@ -84,6 +85,8 @@ var _ClassNameToValueMap = map[string]Class{
 	_ClassLowerName[105:116]: ClassSponsorship,
 	_ClassName[116:125]:      ClassLoadpoint,
 	_ClassLowerName[116:125]: ClassLoadpoint,
+	_ClassName[125:128]:      ClassEOS,
+	_ClassLowerName[125:128]: ClassEOS,
 }
 
 var _ClassNames = []string{
@@ -105,6 +108,7 @@ var _ClassNames = []string{
 	_ClassName[96:105],
 	_ClassName[105:116],
 	_ClassName[116:125],
+	_ClassName[125:128],
 }
 
 // ClassString retrieves an enum value from the enum constants string name.

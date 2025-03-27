@@ -238,6 +238,11 @@ func runRoot(cmd *cobra.Command, args []string) {
 		}
 	}
 
+	// start EOS
+	if err == nil {
+		err = wrapErrorWithClass(ClassEOS, configureEos(&conf.EOS))
+	}
+
 	// announce on mDNS
 	if err == nil && strings.HasSuffix(conf.Network.Host, ".local") {
 		err = configureMDNS(conf.Network)
@@ -265,6 +270,7 @@ func runRoot(cmd *cobra.Command, args []string) {
 	valueChan <- util.Param{Key: keys.Mqtt, Val: conf.Mqtt}
 	valueChan <- util.Param{Key: keys.Network, Val: conf.Network}
 	valueChan <- util.Param{Key: keys.Sponsor, Val: sponsor.Status()}
+	valueChan <- util.Param{Key: keys.Eos, Val: conf.EOS}
 
 	// run shutdown functions on stop
 	var once sync.Once

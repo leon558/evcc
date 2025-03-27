@@ -237,6 +237,14 @@ vehicleHelpDefault = "Always assume this vehicle is charging here. Auto-detectio
 vehicleLabel = "Default vehicle"
 vehiclesTitle = "Vehicles"
 
+[config.eos]
+title = "EOS"
+labelServer = "EOS Server URL"
+description = "Connect to an EOS server to optimize your energy consumption"
+serverConfig = "Server Configuration" 
+yearlyConsumption = "Yearly electricity consumption"
+descriptionConsumption = "Total yearly electricity consumption in kWh"
+
 [config.main]
 addAdditional = "Add additional meter"
 addGrid = "Add grid meter"

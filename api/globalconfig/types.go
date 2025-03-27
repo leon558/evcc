@@ -40,6 +40,7 @@ type All struct {
 	Site         map[string]interface{}
 	Loadpoints   []config.Named
 	Circuits     []config.Named
+	EOS          Eos
 }
 
 type Javascript struct {
@@ -162,4 +163,9 @@ func (c Network) HostPort() string {
 
 func (c Network) URI() string {
 	return fmt.Sprintf("%s://%s", c.Schema, c.HostPort())
+}
+
+type Eos struct {
+	URL         string `json:"url"`
+	Consumption int    `json:"consumption"`
 }

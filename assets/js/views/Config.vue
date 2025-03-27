@@ -308,6 +308,18 @@
 								<DeviceTags :tags="hemsTags" />
 							</template>
 						</DeviceCard>
+                        <DeviceCard
+							:title="$t('config.eos.title')"
+							editable
+							:error="fatalClass === 'eos'"
+							data-testid="eos"
+							@edit="openModal('eosModal')"
+						>
+							<template #icon><EosIcon /></template>
+							<template #tags>
+								<DeviceTags :tags="eosTags" />
+							</template>
+						</DeviceCard>
 					</ul>
 				</div>
 
@@ -371,6 +383,7 @@
 				<ModbusProxyModal @changed="yamlChanged" />
 				<CircuitsModal @changed="yamlChanged" />
 				<EebusModal @changed="yamlChanged" />
+                <EosModal @changed="loadDirty" />
 			</div>
 		</div>
 	</div>
@@ -416,6 +429,8 @@ import TariffsModal from "../components/Config/TariffsModal.vue";
 import Header from "../components/Top/Header.vue";
 import VehicleIcon from "../components/VehicleIcon";
 import VehicleModal from "../components/Config/VehicleModal.vue";
+import EosIcon from "../components/MaterialIcon/Eos.vue";
+import EosModal from "../components/Config/EosModal.vue";
 
 export default {
 	name: "Config",
@@ -449,6 +464,8 @@ export default {
 		TopHeader: Header,
 		VehicleIcon,
 		VehicleModal,
+        EosIcon,
+        EosModal
 	},
 	mixins: [formatter, collector],
 	props: {
@@ -582,6 +599,9 @@ export default {
 		messagingTags() {
 			return { configured: { value: store.state?.messaging || false } };
 		},
+        eosTags() {
+            return { configured: { value: store.state?.eos || false } };
+        },
 	},
 	watch: {
 		offline() {
