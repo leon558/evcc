@@ -27,7 +27,8 @@ type API interface {
 	//
 
 	// TODO SetCircuitRef
-
+	// GetVehicleRef returns the loadpoint vehicle
+	GetVehicleRef() string
 	// GetChargerRef returns the loadpoint charger
 	GetChargerRef() string
 	// SetChargerRef sets the loadpoint charger

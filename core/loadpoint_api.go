@@ -26,6 +26,13 @@ func (lp *Loadpoint) GetChargerRef() string {
 	return lp.ChargerRef
 }
 
+// GetVehicleRef returns the loadpoint vehicle
+func (lp *Loadpoint) GetVehicleRef() string {
+	lp.RLock()
+	defer lp.RUnlock()
+	return lp.VehicleRef
+}
+
 // SetChargerRef sets the loadpoint charger
 func (lp *Loadpoint) SetChargerRef(ref string) {
 	if !lp.isConfigurable() {
