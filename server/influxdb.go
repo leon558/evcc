@@ -1,6 +1,7 @@
 package server
 
 import (
+	"context"
 	"crypto/tls"
 	"fmt"
 	"reflect"
@@ -13,6 +14,7 @@ import (
 	"github.com/evcc-io/evcc/core/site"
 	"github.com/evcc-io/evcc/util"
 	influxdb2 "github.com/influxdata/influxdb-client-go/v2"
+	"github.com/influxdata/influxdb-client-go/v2/api"
 	"github.com/influxdata/influxdb-client-go/v2/api/write"
 	influxlog "github.com/influxdata/influxdb-client-go/v2/log"
 )
@@ -145,6 +147,15 @@ func (m *Influx) writeComplexPoint(writer pointWriter, key string, val any, tags
 	}
 
 	m.writePoint(writer, key, fields, tags)
+}
+
+func (m *Influx) QueryDB(query string) (*api.QueryTableResult, error) {
+	queryAPI := m.client.QueryAPI(m.org)
+
+	result, err := queryAPI.Query(context.Background(), query)
+	m.client.Close()
+
+	return result, err
 }
 
 // Run Influx publisher
