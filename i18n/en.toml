@@ -244,6 +244,10 @@ description = "Connect to an EOS server to optimize your energy consumption"
 serverConfig = "Server Configuration" 
 yearlyConsumption = "Yearly electricity consumption"
 descriptionConsumption = "Total yearly electricity consumption in kWh"
+batteryMinSoc = "Battery minimum charge (%)"
+batteryMaxSoc = "Battery maximum charge (%)"
+inverterMaxPower = "Inverter / Battery maximum power (W)"
+batteryTariff = "Value of electricity in battery in €"
 
 [config.main]
 addAdditional = "Add additional meter"

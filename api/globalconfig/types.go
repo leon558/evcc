@@ -40,7 +40,7 @@ type All struct {
 	Site         map[string]interface{}
 	Loadpoints   []config.Named
 	Circuits     []config.Named
-	EOS          Eos
+	EOS          EosConfig
 }
 
 type Javascript struct {
@@ -165,7 +165,11 @@ func (c Network) URI() string {
 	return fmt.Sprintf("%s://%s", c.Schema, c.HostPort())
 }
 
-type Eos struct {
-	URL         string `json:"url"`
-	Consumption int    `json:"consumption"`
+type EosConfig struct {
+	URL              string  `json:"url"`
+	Consumption      int     `json:"consumption"`
+	BatMinSoc        int     `json:"batteryMinSoc"`
+	BatMaxSoc        int     `json:"batteryMaxSoc"`
+	InverterMaxPower int     `json:"inverterMaxPower"`
+	BatteryTariff    float64 `json:"batteryTariff"`
 }
