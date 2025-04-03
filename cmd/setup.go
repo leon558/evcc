@@ -34,6 +34,7 @@ import (
 	"github.com/evcc-io/evcc/server/db"
 	"github.com/evcc-io/evcc/server/db/settings"
 	"github.com/evcc-io/evcc/server/eebus"
+	"github.com/evcc-io/evcc/server/eos"
 	"github.com/evcc-io/evcc/server/modbus"
 	"github.com/evcc-io/evcc/server/oauth2redirect"
 	"github.com/evcc-io/evcc/tariff"
@@ -632,7 +633,7 @@ func configureMqtt(conf *globalconfig.Mqtt) error {
 	return nil
 }
 
-func configureEos(conf *globalconfig.Eos) error {
+func configureEos(conf *globalconfig.EosConfig, site *core.Site, influx *server.Influx) error {
 
 	if settings.Exists(keys.Eos) {
 		if err := settings.Json(keys.Eos, &conf); err != nil {
@@ -644,12 +645,12 @@ func configureEos(conf *globalconfig.Eos) error {
 		return nil
 	}
 
-	eos, err := server.NewEosClient(conf.URL, conf.Consumption)
+	eos, err := eos.NewEosClient(conf, influx)
 	if err != nil {
 		return fmt.Errorf("failed configuring eos: %w", err)
 	}
 
-	go eos.Run()
+	go eos.Run(site)
 
 	return nil
 }

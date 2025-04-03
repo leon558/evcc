@@ -206,23 +206,24 @@ func runRoot(cmd *cobra.Command, args []string) {
 
 		if err == nil && influx != nil {
 			// eliminate duplicate values
-			dedupe := pipe.NewDeduplicator(30*time.Minute,
-				keys.VehicleSoc,
-				keys.VehicleRange,
-				keys.VehicleOdometer,
-				keys.TariffCo2,
-				keys.TariffCo2Home,
-				keys.TariffCo2Loadpoints,
-				keys.TariffFeedIn,
-				keys.TariffGrid,
-				keys.TariffPriceHome,
-				keys.TariffPriceLoadpoints,
-				keys.TariffSolar,
-				keys.ChargedEnergy,
-				keys.ChargeRemainingEnergy)
-			go influx.Run(site, dedupe.Pipe(
-				pipe.NewDropper(append(ignoreLogs, ignoreEmpty, keys.Forecast)...).Pipe(tee.Attach()),
-			))
+			// dedupe := pipe.NewDeduplicator(30*time.Minute,
+			// 	keys.VehicleSoc,
+			// 	keys.VehicleRange,
+			// 	keys.VehicleOdometer,
+			// 	keys.TariffCo2,
+			// 	keys.TariffCo2Home,
+			// 	keys.TariffCo2Loadpoints,
+			// 	keys.TariffFeedIn,
+			// 	keys.TariffGrid,
+			// 	keys.TariffPriceHome,
+			// 	keys.TariffPriceLoadpoints,
+			// 	keys.TariffSolar,
+			// 	keys.ChargedEnergy,
+			// 	keys.ChargeRemainingEnergy)
+			// go influx.Run(site, dedupe.Pipe(
+			// 	pipe.NewDropper(append(ignoreLogs, ignoreEmpty, keys.Forecast)...).Pipe(tee.Attach()),
+			// ))
+			err = wrapErrorWithClass(ClassEOS, configureEos(&conf.EOS, site, influx))
 		}
 	}
 
@@ -239,9 +240,9 @@ func runRoot(cmd *cobra.Command, args []string) {
 	}
 
 	// start EOS
-	if err == nil {
-		err = wrapErrorWithClass(ClassEOS, configureEos(&conf.EOS))
-	}
+	// if err == nil {
+	// 	err = wrapErrorWithClass(ClassEOS, configureEos(&conf.EOS, ))
+	// }
 
 	// announce on mDNS
 	if err == nil && strings.HasSuffix(conf.Network.Host, ".local") {
