@@ -335,3 +335,13 @@ func (site *Site) SetBatteryGridChargeLimit(val *float64) {
 		}
 	}
 }
+
+// GetBatteryCapacity returns the total battery capacity in kWh
+func (site *Site) GetBatteryCapacity() float64 {
+	return site.batteryCapacity
+}
+
+// GetBatterySoc returns the current battery SoC in percent
+func (site *Site) GetBatterySoc() float64 {
+	return site.batterySoc
+}
