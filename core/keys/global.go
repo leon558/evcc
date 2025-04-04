@@ -17,4 +17,6 @@ const (
 	Fatal              = "fatal"
 	Startup            = "startup"
 	Eos                = "eos"
+	Plant              = "plant"
+	Telemetry          = "telemetry"
 )
