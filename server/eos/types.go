@@ -8,7 +8,7 @@ type EosOptimize struct {
 	// temperature forecast in °C
 	TempForecast []int `json:"temperature_forecast,omitempty"`
 	// solution of the last optimization
-	StartSolution []int `json:"start_solution,omitempty"`
+	StartSolution []float64 `json:"start_solution,omitempty"`
 }
 
 type EosEms struct {
@@ -83,18 +83,18 @@ type EosOptimizeResponse struct {
 		ElectricityPrice       []float64 `json:"Electricity_price"`
 	} `json:"result"`
 	EAutoObj struct {
-		ChargeArray           []int   `json:"charge_array"`
-		DischargeArray        []int   `json:"discharge_array"`
-		DischargingEfficiency float64 `json:"discharging_efficiency"`
-		Hours                 int     `json:"hours"`
-		CapacityWh            int     `json:"capacity_wh"`
-		ChargingEfficiency    float64 `json:"charging_efficiency"`
-		MaxChargePowerW       int     `json:"max_charge_power_w"`
-		SocWh                 int     `json:"soc_wh"`
-		InitialSocPercentage  int     `json:"initial_soc_percentage"`
+		ChargeArray           []float64 `json:"charge_array"`
+		DischargeArray        []float64 `json:"discharge_array"`
+		DischargingEfficiency float64   `json:"discharging_efficiency"`
+		Hours                 int       `json:"hours"`
+		CapacityWh            int       `json:"capacity_wh"`
+		ChargingEfficiency    float64   `json:"charging_efficiency"`
+		MaxChargePowerW       int       `json:"max_charge_power_w"`
+		SocWh                 float64   `json:"soc_wh"`
+		InitialSocPercentage  int       `json:"initial_soc_percentage"`
 	} `json:"eauto_obj"`
-	StartSolution []int `json:"start_solution"`
-	WashingStart  int   `json:"washingstart"`
+	StartSolution []float64 `json:"start_solution"`
+	WashingStart  int       `json:"washingstart"`
 }
 
 type last struct {

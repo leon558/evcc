@@ -15,11 +15,18 @@ import (
 
 type eos struct {
 	*request.Helper
-	config      *globalconfig.EosConfig
-	log         *util.Logger
-	influx      *server.Influx
-	consumption int
-	connected   bool
+	config    *globalconfig.EosConfig
+	log       *util.Logger
+	influx    *server.Influx
+	status    status
+	optimized EosOptimizeResponse
+}
+
+type status struct {
+	running        bool
+	runningSince   time.Time
+	nextRun        time.Time
+	lastRunSeconds int
 }
 
 type eosConfig struct {
@@ -32,12 +39,10 @@ func NewEosClient(conf *globalconfig.EosConfig, influx *server.Influx) (*eos, er
 	log := util.NewLogger("eos")
 
 	e := &eos{
-		Helper:      request.NewHelper(log),
-		config:      conf,
-		log:         log,
-		influx:      influx,
-		consumption: conf.Consumption,
-		connected:   false,
+		Helper: request.NewHelper(log),
+		config: conf,
+		log:    log,
+		influx: influx,
 	}
 
 	// check endpoint /v1/config
@@ -77,15 +82,21 @@ func (e *eos) run(site *core.Site) error {
 	ems := e.getEMS(site, e.config.BatteryTariff)
 	battery := e.getBattery(site)
 	car := e.getVehicle(site)
+	solution := e.optimized.StartSolution
+
 	eosOptimize := EosOptimize{
-		Ems:      *ems,
-		Battery:  *battery,
-		Inverter: inverter,
-		Vehicle:  *car,
+		Ems:           *ems,
+		Battery:       *battery,
+		Inverter:      inverter,
+		Vehicle:       *car,
+		StartSolution: solution,
 	}
+
+	e.status.running = true
+	e.status.runningSince = time.Now()
 	body := request.MarshalJSON(eosOptimize)
 	req, err := request.New(http.MethodPost, "http://"+e.config.URL+"/optimize", body, request.JSONEncoding)
-	e.Timeout = 60 * time.Second
+	e.Timeout = 120 * time.Second
 	if err != nil {
 		e.log.ERROR.Println("request error: ", err.Error())
 		return nil
@@ -96,8 +107,10 @@ func (e *eos) run(site *core.Site) error {
 		e.log.ERROR.Println("request error: ", err.Error())
 		return nil
 	}
-
+	e.status.running = false
+	e.status.lastRunSeconds = int(time.Since(e.status.runningSince).Seconds())
 	e.log.INFO.Println("result: ", result)
+	e.optimized = result
 	return nil
 }
 
@@ -168,7 +181,7 @@ func (e *eos) getEMS(site *core.Site, batteryTariff float64) *EosEms {
 	pv := e.getPvPrediction(site)
 	grid := e.getGridTariff(site)
 	feedin := e.getFeedInTariff(site)
-	consumption := e.getConsumptionPrediction(e.consumption, 48)
+	consumption := e.getConsumptionPrediction(e.config.Consumption, 48)
 
 	return &EosEms{
 		PVForecast:       pv,
